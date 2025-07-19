@@ -3,7 +3,8 @@
 import unittest
 # from functions.get_files_info import get_files_info
 # from functions.get_file_content import get_file_content, MAX_CHARS
-from functions.write_file import write_file
+# from functions.write_file import write_file
+from functions.run_python import run_python_file
 
 class TestGetFilesInfo(unittest.TestCase):
 #     def test_case1(self):
@@ -59,20 +60,38 @@ class TestGetFilesInfo(unittest.TestCase):
     #     print(result)
     #     self.assertIn("Error: File not found", result)
 
-    def test_case10(self):
-        result = write_file("calculator", "lorem.txt", "wait, this isn't lorem ipsum")
-        print(result)
-        self.assertIn("28 characters written", result)
+    # def test_case10(self):
+    #     result = write_file("calculator", "lorem.txt", "wait, this isn't lorem ipsum")
+    #     print(result)
+    #     self.assertIn("28 characters written", result)
     
-    def test_case11(self):
-        result = write_file("calculator", "pkg/morelorem.txt", "lorem ipsum dolor sit amet")
-        print(result)
-        self.assertIn("26 characters written", result)
+    # def test_case11(self):
+    #     result = write_file("calculator", "pkg/morelorem.txt", "lorem ipsum dolor sit amet")
+    #     print(result)
+    #     self.assertIn("26 characters written", result)
 
-    def test_case12(self):
-        result = write_file("calculator", "/tmp/temp.txt", "this should not be allowed")
+    # def test_case12(self):
+    #     result = write_file("calculator", "/tmp/temp.txt", "this should not be allowed")
+    #     print(result)
+    #     self.assertIn("Error:", result)
+
+    def test_case_13(self):
+        result = run_python_file("calculator", "main.py") 
         print(result)
-        self.assertIn("Error:", result)
+        # (should print the calculator's usage instructions)
+
+    def test_case_14(self):
+        result = run_python_file("calculator", "tests.py") 
+        print(result)
+        # (should run the tests and print results)
+    def test_case_15(self):
+        result = run_python_file("calculator", "../main.py") 
+        print(result)
+        # (should return an error about running outside the working directory) 
+    def test_case_16(self):
+        result = run_python_file("calculator", "nonexistent.py") 
+        print(result)
+        # (should return an error about the file not being found)
 
 if __name__ == "__main__":
     unittest.main()

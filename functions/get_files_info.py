@@ -1,4 +1,5 @@
 import os
+from google.genai import types as genai_types
 
 def get_files_info(working_directory, directory="."):
     """
@@ -35,3 +36,17 @@ def get_files_info(working_directory, directory="."):
         return f"Error: {e}"
         
     return "\n".join(files_info)
+
+schema_get_files_info = genai_types.FunctionDeclaration(
+    name="get_files_info",
+    description="Lists files in the specified directory along with their sizes, constrained to the working directory.",
+    parameters=genai_types.Schema(
+        type=genai_types.Type.OBJECT,
+        properties={
+            "directory": genai_types.Schema(
+                type=genai_types.Type.STRING,
+                description="The directory to list files from, relative to the working directory. If not provided, lists files in the working directory itself.",
+            ),
+        },
+    ),
+)

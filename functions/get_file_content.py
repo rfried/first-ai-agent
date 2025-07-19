@@ -1,4 +1,5 @@
 import os
+from google.genai import types as genai_types
 
 MAX_CHARS = 10000  # Maximum characters to read from the file
 
@@ -31,3 +32,18 @@ def get_file_content(working_directory, file_path):
         return content
     except Exception as e:
         return f"Error: reading file {e}"
+    
+
+schema_get_file_content = genai_types.FunctionDeclaration(
+    name="get_file_content",
+    description=f"Reads and returns file content, constrained to the working directory and to {MAX_CHARS} characters.",
+    parameters=genai_types.Schema(
+        type=genai_types.Type.OBJECT,
+        properties={
+            "file_path": genai_types.Schema(
+                type=genai_types.Type.STRING,
+                description=f"The file path to read content from, relative to the working directory, constrained to {MAX_CHARS} characters.",
+            ),
+        },
+    ),
+)
