@@ -45,8 +45,9 @@ def call_function(function_call_part):
         )
 
 if (len(sys.argv) < 2):
-    print("Usage: python main.py <prompt>")
-    sys.exit(1)
+    prompt = "Hello, world!"
+else:
+    prompt = sys.argv[1]
 
 load_dotenv()
 api_key = os.environ.get("GEMINI_API_KEY")
@@ -70,7 +71,6 @@ You can perform the following operations:
 All paths you provide should be relative to the working directory. You do not need to specify the working directory in your function calls as it is automatically injected for security reasons.
 """
 
-prompt = sys.argv[1]
 verbose = "--verbose" in sys.argv
 messages = [
     genai_types.Content(
