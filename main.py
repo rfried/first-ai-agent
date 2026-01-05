@@ -91,19 +91,24 @@ available_functions = genai_types.Tool(
 for i in range(20):
     try:
         response = client.models.generate_content(
-            model="gemini-2.0-flash-001", 
+            model="gemini-2.5-flash-lite", 
             contents=messages,
             config=genai_types.GenerateContentConfig(
                 tools=[available_functions],
                 system_instruction=system_prompt,
             ),
         )
+        if response.candidates is None or len(response.candidates) == 0:
+            raise Exception("Error: No candidates returned in response")
 
         for candidate in response.candidates:
-            messages.append(candidate.content)
+            if candidate.content:
+                messages.append(candidate.content)
 
-        if verbose:
+        if verbose or True:
             print(f"User prompt: {prompt}")
+            if response.usage_metadata is None:
+                raise Exception("Error: No usage metadata returned in response")
             print(f"Prompt tokens: {response.usage_metadata.prompt_token_count}")
             print(f"Response tokens: {response.usage_metadata.candidates_token_count}")
 
@@ -127,7 +132,6 @@ for i in range(20):
 
     except:
         print("Error: An error occurred while processing the request.")
-        if verbose:
-            import traceback
-            traceback.print_exc()
+        import traceback
+        traceback.print_exc()
 
